@@ -13,9 +13,9 @@ pub const C_Generator = struct {
     const Self = @This();
 
     pub fn init(comptime src_file: []const u8, dst_dir: *Dir) Self {
-        comptime const filebaseext = std.fs.path.basename(src_file);
-        comptime const filebase = filebaseext[0 .. filebaseext.len - 4];
-
+        const filebaseext = comptime std.fs.path.basename(src_file);
+        const filebase = comptime filebaseext[0 .. filebaseext.len - 4];
+ 
         var file = dst_dir.createFile(filebase ++ ".h", .{}) catch
             @panic("Failed to create header file for source: " ++ src_file);
 

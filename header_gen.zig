@@ -31,15 +31,14 @@ fn validateGenerator(comptime Generator: type) void {
     }
 }
 
-pub fn HeaderGen(comptime fname: []const u8) type {
+pub fn HeaderGen(comptime genType: type, source_file: []const u8) type {
     comptime var all_decls: []const Declaration = undefined;
-    comptime {
-        const import = @typeInfo(@import(fname));
-        all_decls = import.Struct.decls;
-    }
+    const import = @typeInfo(genType);
+    all_decls = import.Struct.decls;
+
     return struct {
         decls: @TypeOf(all_decls) = all_decls,
-        source_file: []const u8 = fname,
+        source_file: []const u8 = source_file,
 
         const Self = @This();
 
